@@ -1,0 +1,11 @@
+Flask
+flask-cors
+python-dotenv
+pandas
+statsmodels
+groq
+httpx>=0.28.1
+requests
+lxml
+joblib
+scikit-learn

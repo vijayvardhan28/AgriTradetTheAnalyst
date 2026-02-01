@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Upload, AlertCircle, CheckCircle, Loader } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 
 const DiseaseDetector = () => {
     const [selectedImage, setSelectedImage] = useState(null);
@@ -43,7 +44,7 @@ const DiseaseDetector = () => {
         formData.append('image', selectedImage);
 
         try {
-            const response = await fetch('http://localhost:5000/detect-disease', {
+            const response = await fetch('http://localhost:5000/disease-detect', {
                 method: 'POST',
                 body: formData,
             });
@@ -105,8 +106,8 @@ const DiseaseDetector = () => {
                         onClick={analyzeDisease}
                         disabled={!selectedImage || loading}
                         className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-colors ${!selectedImage || loading
-                                ? 'bg-gray-400 cursor-not-allowed'
-                                : 'bg-green-600 hover:bg-green-700'
+                            ? 'bg-gray-400 cursor-not-allowed'
+                            : 'bg-green-600 hover:bg-green-700'
                             }`}
                     >
                         {loading ? (
@@ -131,46 +132,21 @@ const DiseaseDetector = () => {
                 <div className="space-y-6">
                     {result ? (
                         <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-                            <div className={`p-4 ${result.disease === 'Healthy Plant' ? 'bg-green-100' : 'bg-red-50'
-                                }`}>
-                                <h2 className={`text-2xl font-bold ${result.disease === 'Healthy Plant' ? 'text-green-800' : 'text-red-800'
-                                    }`}>
+                            <div className={`p-4 ${result.disease === 'Healthy Plant' ? 'bg-green-100' : 'bg-red-50'}`}>
+                                <h2 className={`text-2xl font-bold ${result.disease === 'Healthy Plant' ? 'text-green-800' : 'text-red-800'}`}>
                                     {result.disease}
                                 </h2>
-                                <div className="flex items-center mt-2 space-x-4">
-                                    <span className="px-3 py-1 rounded-full text-sm font-medium bg-white bg-opacity-50">
-                                        Confidence: {result.confidence}
-                                    </span>
-                                    {result.severity && (
-                                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${result.severity.toLowerCase() === 'high' ? 'bg-red-200 text-red-800' :
-                                                result.severity.toLowerCase() === 'moderate' ? 'bg-yellow-200 text-yellow-800' :
-                                                    'bg-green-200 text-green-800'
-                                            }`}>
-                                            Severity: {result.severity}
-                                        </span>
-                                    )}
-                                </div>
                             </div>
 
                             <div className="p-6 space-y-6">
                                 <div>
                                     <h3 className="font-semibold text-gray-900 flex items-center mb-2">
                                         <CheckCircle className="h-5 w-5 text-green-600 mr-2" />
-                                        Treatment
+                                        Recommended Treatment
                                     </h3>
-                                    <p className="text-gray-600 leading-relaxed">
-                                        {result.treatment}
-                                    </p>
-                                </div>
-
-                                <div>
-                                    <h3 className="font-semibold text-gray-900 flex items-center mb-2">
-                                        <AlertCircle className="h-5 w-5 text-blue-600 mr-2" />
-                                        Prevention
-                                    </h3>
-                                    <p className="text-gray-600 leading-relaxed">
-                                        {result.prevention}
-                                    </p>
+                                    <div className="prose prose-green max-w-none text-gray-600 leading-relaxed">
+                                        <ReactMarkdown>{result.treatment}</ReactMarkdown>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -165,11 +165,10 @@ const AgriBotPage = () => {
             const selectedLangObj = languages.find(l => l.code === language);
             const response = await axios.post('http://127.0.0.1:5000/chatbot', {
                 message: textToSend,
-                history: messages.map(m => ({ role: m.isBot ? 'model' : 'user', parts: [m.text] })),
                 language: selectedLangObj ? selectedLangObj.name : 'English'
             });
 
-            const botResponse = response.data.text;
+            const botResponse = response.data.reply;
             setMessages(prev => [...prev, { text: botResponse, isBot: true }]);
             speakText(botResponse);
 

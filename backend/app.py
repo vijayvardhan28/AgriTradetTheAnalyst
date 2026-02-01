@@ -1,89 +1,3 @@
-# # # main.py
-# # from fastapi import FastAPI, HTTPException
-# # from pydantic import BaseModel
-# # from model import calculate_financials
-# # from fastapi.middleware.cors import CORSMiddleware
-
-# # app = FastAPI()
-
-# # # Allow CORS for frontend
-
-
-# # class FinancialRequest(BaseModel):
-# #     district: str
-# #     crop: str
-# #     season: str
-# #     acres: int
-# #     start_date: str  # frontend sends date string
-
-# # @app.post("/financial-summary")
-# # def financial_summary(request: FinancialRequest):
-# #     try:
-# #         result = calculate_financials(
-# #             district=request.district,
-# #             crop=request.crop,
-# #             season=request.season,
-# #             acres=request.acres,
-# #             start_date=request.start_date
-# #         )
-# #         return result
-# #     except Exception as e:
-# #         raise HTTPException(status_code=400, detail=str(e))
-# import numpy as np
-# from fastapi import FastAPI
-# from pydantic import BaseModel
-
-# app = FastAPI()
-
-# class InputData(BaseModel):
-#     district: str
-#     crop: str
-#     season: str
-#     date: str
-
-# @app.post("/financial-summary")
-# def financial_summary(data: InputData):
-#     # Suppose your model or code returns a numpy.int64
-#     revenue = np.int64(5000)  # Just example
-#     cost = np.int64(2000)
-#     profit = revenue - cost
-
-#     # Convert numpy values to regular Python int
-#     return {
-#         "revenue": int(revenue),
-#         "cost": int(cost),
-#         "profit": int(profit)
-#     }
-
-# from fastapi import FastAPI
-# from fastapi.middleware.cors import CORSMiddleware
-# import pandas as pd
-
-# app = FastAPI()
-
-# # Allow CORS
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=["*"],
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
-
-# # Load the CSVs
-# districts_df = pd.read_csv("./datasets/DISTRTICTS_DATASET final.csv")
-# crops_df = pd.read_csv("./datasets/Cropcost.csv")
-
-# @app.get("/options")
-# def get_options():
-#     districts = sorted(districts_df['District'].unique())
-#     crops = sorted(crops_df['Crop'].unique())
-#     seasons = sorted(crops_df['Season'].unique())
-#     return {
-#         "districts": districts,
-#         "crops": crops,
-#         "seasons": seasons
-#     }
 # app.py
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -91,15 +5,11 @@ from model import calculate_financials, df_districts, df_crop
 from ml_pipeline import run_full_pipeline
 from arbitrage import find_best_arbitrage
 from credit_score import calculate_credit_score
-import google.generativeai as genai
 import os
 from dotenv import load_dotenv
+from groq_ai import agri_chatbot, detect_crop_disease, disease_treatment
 
 load_dotenv()
-
-# Configure Gemini
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-genai.configure(api_key=GEMINI_API_KEY)
 
 app = Flask(__name__)
 CORS(app)
@@ -432,31 +342,29 @@ def predict_30_days():
 
 
 # -----------------------
-# CHATBOT ENDPOINT
+# CHATBOT ENDPOINT (GROQ)
 # -----------------------
 @app.route('/chatbot', methods=['POST'])
 def chatbot_endpoint():
     try:
-        from chatbot import get_agriculture_response
         data = request.get_json()
         message = data.get('message')
-        history = data.get('history', [])
         language = data.get('language', 'English')
         
         if not message:
             return jsonify({"error": "Message is required"}), 400
             
-        response = get_agriculture_response(message, history, language)
+        response = agri_chatbot(message, language)
         return jsonify(response)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 
 # -----------------------
-# CROP DISEASE DETECTION
+# CROP DISEASE DETECTION (GROQ)
 # -----------------------
-@app.route('/detect-disease', methods=['POST'])
-def detect_disease():
+@app.route('/disease-detect', methods=['POST'])
+def disease_detect_endpoint():
     try:
         if 'image' not in request.files:
             return jsonify({"error": "No image file provided"}), 400
@@ -468,45 +376,16 @@ def detect_disease():
         # Read image data
         image_data = file.read()
         
-        # Prepare image for Gemini
-        image_parts = [
-            {
-                "mime_type": file.content_type,
-                "data": image_data
-            }
-        ]
+        # Detect Disease
+        disease_name = detect_crop_disease(image_data)
         
-        # Initialize Gemini Model
-        model = genai.GenerativeModel('gemini-2.0-flash')
+        # Get Treatment
+        treatment_info = disease_treatment(disease_name)
         
-        prompt = """
-        Identify the crop disease in this leaf. 
-        If healthy, say 'Healthy Plant'. 
-        Provide disease name, severity, confidence score, treatment, and prevention tips.
-        
-        Return the response in this strict JSON format:
-        {
-            "disease": "Disease Name or Healthy Plant",
-            "confidence": "95%",
-            "severity": "Low / Moderate / High",
-            "treatment": "Recommended treatment steps...",
-            "prevention": "Prevention tips..."
-        }
-        """
-        
-        response = model.generate_content([prompt, image_parts[0]])
-        
-        # Clean up response text to ensure it's valid JSON
-        response_text = response.text.strip()
-        if response_text.startswith("```json"):
-            response_text = response_text[7:-3].strip()
-        elif response_text.startswith("```"):
-            response_text = response_text[3:-3].strip()
-            
-        import json
-        result = json.loads(response_text)
-        
-        return jsonify(result)
+        return jsonify({
+            "disease": disease_name,
+            "treatment": treatment_info
+        })
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500

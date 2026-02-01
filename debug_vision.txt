@@ -1,0 +1,25 @@
+Testing llama-3.2-11b-vision-preview...
+Testing llama-3.2-90b-vision-preview...
+Testing llama-3.2-vision-preview...
+
+Listing available models:
+- openai/gpt-oss-20b
+- whisper-large-v3
+- moonshotai/kimi-k2-instruct-0905
+- meta-llama/llama-prompt-guard-2-22m
+- allam-2-7b
+- meta-llama/llama-prompt-guard-2-86m
+- qwen/qwen3-32b
+- meta-llama/llama-4-maverick-17b-128e-instruct
+- meta-llama/llama-guard-4-12b
+- groq/compound
+- openai/gpt-oss-safeguard-20b
+- playai-tts
+- moonshotai/kimi-k2-instruct
+- playai-tts-arabic
+- llama-3.3-70b-versatile
+- openai/gpt-oss-120b
+- llama-3.1-8b-instant
+- meta-llama/llama-4-scout-17b-16e-instruct
+- whisper-large-v3-turbo
+- groq/compound-mini
