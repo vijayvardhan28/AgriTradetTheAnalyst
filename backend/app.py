@@ -12,7 +12,7 @@ from groq_ai import agri_chatbot, detect_crop_disease, disease_treatment
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["https://agritradeanalyst.vercel.app", "http://localhost:5173", "http://127.0.0.1:5173"]}})
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # -----------------------
 # BASIC OPTION ROUTES
