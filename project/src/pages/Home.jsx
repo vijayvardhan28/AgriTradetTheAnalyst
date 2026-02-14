@@ -30,7 +30,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      
+
 
       {/* Image Carousel */}
       <div className="container mx-auto px-4 py-8">
@@ -61,7 +61,7 @@ const Home = () => {
             Everything you need to manage your agricultural business
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <Link to="/finance" className="group">
             <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
@@ -69,7 +69,43 @@ const Home = () => {
                 <LineChart className="h-6 w-6 text-green-600" />
               </div>
               <h3 className="text-xl font-semibold mb-2 text-gray-900">Finance Tracker</h3>
-              <p className="text-gray-600">Manage account and track your agricultural finances efficiently</p>
+              <p className="text-gray-600">Track your agricultural finances and calculate profits</p>
+            </div>
+          </Link>
+
+          <Link to="/disease-detector" className="group">
+            <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <div className="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-gray-900">Disease Detector</h3>
+              <p className="text-gray-600">Upload crop photos to detect diseases using AI</p>
+            </div>
+          </Link>
+
+          <Link to="/agribot" className="group">
+            <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <div className="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-gray-900">AgriBot Assistant</h3>
+              <p className="text-gray-600">Chat with our AI assistant for farming advice</p>
+            </div>
+          </Link>
+
+          <Link to="/forecast" className="group">
+            <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <div className="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-gray-900">Price Forecast</h3>
+              <p className="text-gray-600">Get 30-day price predictions for your crops</p>
             </div>
           </Link>
 
