@@ -33,11 +33,11 @@ const ForecastPage = () => {
       try {
         setLoading(true);
         // 1. Fetch Weather & Risk
-        const weatherRes = await axios.get(`http://localhost:5000/weather?district=${district}`);
+        const weatherRes = await axios.get(`https://theagritradeanalyst.onrender.com/weather?district=${district}`);
         setWeatherData(weatherRes.data);
 
         // 2. Fetch 30-Day Forecast using /predict-latest
-        const forecastRes = await axios.get('http://localhost:5000/predict-latest', {
+        const forecastRes = await axios.get('https://theagritradeanalyst.onrender.com/predict-latest', {
           params: { crop, district }
         });
 

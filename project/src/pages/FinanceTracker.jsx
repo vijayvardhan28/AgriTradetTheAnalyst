@@ -41,9 +41,9 @@ const FinanceTracker = () => {
     const fetchOptions = async () => {
       try {
         const [districtsRes, cropsRes, seasonsRes] = await Promise.all([
-          axios.get('http://localhost:5000/districts'),
-          axios.get('http://localhost:5000/crops'),
-          axios.get('http://localhost:5000/seasons')
+          axios.get('https://theagritradeanalyst.onrender.com/districts'),
+          axios.get('https://theagritradeanalyst.onrender.com/crops'),
+          axios.get('https://theagritradeanalyst.onrender.com/seasons')
         ]);
 
         setOptions({
@@ -99,7 +99,7 @@ const FinanceTracker = () => {
 
     try {
       // 1. Calculate Financials
-      const financialRes = await axios.post('http://localhost:5000/calculate', {
+      const financialRes = await axios.post('https://theagritradeanalyst.onrender.com/calculate', {
         ...formData,
         acres: parseFloat(formData.acres),
         expenseMode: expenseMode,
@@ -108,7 +108,7 @@ const FinanceTracker = () => {
       setResult(financialRes.data);
 
       // 2. Fetch Arbitrage Opportunities
-      const arbitrageRes = await axios.post('http://localhost:5000/arbitrage', {
+      const arbitrageRes = await axios.post('https://theagritradeanalyst.onrender.com/arbitrage', {
         crop: formData.crop,
         district: formData.district
       });
@@ -116,7 +116,7 @@ const FinanceTracker = () => {
 
       // 3. Calculate Credit Score
       if (financialRes.data) {
-        const creditRes = await axios.post('http://localhost:5000/credit-score', {
+        const creditRes = await axios.post('https://theagritradeanalyst.onrender.com/credit-score', {
           income: financialRes.data.totalIncome,
           expense: financialRes.data.totalExpense,
           crop: formData.crop
@@ -137,7 +137,7 @@ const FinanceTracker = () => {
 
   const fetchForecast = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/predict-latest", {
+      const response = await axios.get("https://theagritradeanalyst.onrender.com/predict-latest", {
         params: {
           crop: formData.crop,
           district: formData.district
@@ -156,7 +156,7 @@ const FinanceTracker = () => {
       return;
     }
     try {
-      const response = await axios.get(`http://localhost:5000/weather?district=${formData.district}`);
+      const response = await axios.get(`https://theagritradeanalyst.onrender.com/weather?district=${formData.district}`);
       setWeatherData(response.data);
     } catch (err) {
       console.error(err);

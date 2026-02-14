@@ -44,7 +44,7 @@ const DiseaseDetector = () => {
         formData.append('image', selectedImage);
 
         try {
-            const response = await fetch('http://localhost:5000/disease-detect', {
+            const response = await fetch('https://theagritradeanalyst.onrender.com/disease-detect', {
                 method: 'POST',
                 body: formData,
             });

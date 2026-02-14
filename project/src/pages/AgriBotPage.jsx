@@ -163,7 +163,7 @@ const AgriBotPage = () => {
 
         try {
             const selectedLangObj = languages.find(l => l.code === language);
-            const response = await axios.post('http://127.0.0.1:5000/chatbot', {
+            const response = await axios.post('https://theagritradeanalyst.onrender.com/chatbot', {
                 message: textToSend,
                 language: selectedLangObj ? selectedLangObj.name : 'English'
             });
