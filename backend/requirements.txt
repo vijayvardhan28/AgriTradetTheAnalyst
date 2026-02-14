@@ -9,3 +9,4 @@ requests
 lxml
 joblib
 scikit-learn
+gunicorn
