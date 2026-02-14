@@ -184,8 +184,8 @@ const AgriBotPage = () => {
     };
 
     return (
-        <div className="min-h-[calc(100vh-64px)] bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 h-[80vh] flex flex-col">
+        <div className="min-h-[calc(100vh-64px)] bg-gray-50 py-4 sm:py-8 px-2 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 h-[85vh] sm:h-[80vh] flex flex-col">
                 {/* Header */}
                 <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-white">
                     <div className="flex items-center gap-4">

@@ -242,7 +242,7 @@ const FinanceTracker = () => {
           {/* DUAL EXPENSE MODE */}
           <div className="col-span-1 md:col-span-2 bg-gray-50 p-4 rounded border">
             <label className="block text-gray-700 font-medium mb-2">Expense Calculation Mode</label>
-            <div className="flex gap-4 mb-2">
+            <div className="flex flex-col sm:flex-row gap-4 mb-2">
               <label className="flex items-center cursor-pointer">
                 <input
                   type="radio"
